@@ -4,7 +4,10 @@ Library validasi bergaya fungsional dalam `validlib.py`, digunakan oleh lima apl
 
 ## Anggota kelompok
 
-- Nama (NIM)
+Pemograman Fungsional G
+
+- Mohamad Akbar Noviandi (202410370110388)
+- Rico Shandika Jovial Agista (20241037011043)
 
 ## Setup
 
