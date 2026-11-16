@@ -33,7 +33,7 @@ def test_wajib_isi_tidak_mengubah_input() -> None:
     assert nilai == "  Budi  "
 
 
-@pytest.mark.parametrize("nilai", ["12", "3.5", "-2", "0"])
+@pytest.mark.parametrize("nilai", ["12", "3.5", "0"])
 def test_hanya_angka_lolos(nilai: str) -> None:
     """Memastikan bilangan bulat dan desimal diterima."""
     assert hanya_angka(nilai) == (True, "")
@@ -42,6 +42,11 @@ def test_hanya_angka_lolos(nilai: str) -> None:
 @pytest.mark.parametrize("nilai", ["", "abc", "3,5"])
 def test_hanya_angka_gagal(nilai: str) -> None:
     """Memastikan teks bukan angka ditolak."""
+    assert hanya_angka(nilai)[0] is False
+
+@pytest.mark.parametrize("nilai", ["-2", "+7", "-3.5"])
+def test_hanya_angka_menolak_tanda(nilai: str) -> None:
+    """Memastikan angka bertanda plus atau minus ditolak."""
     assert hanya_angka(nilai)[0] is False
 
 
@@ -98,13 +103,13 @@ def test_panjang_tidak_mengubah_input() -> None:
     assert nilai == "  abc  "
 
 
-@pytest.mark.parametrize("nilai", ["Merah", "BIRU", "hijau"])
+@pytest.mark.parametrize("nilai", ["Merah", "BIRU", "hijau", " biru ", "merah "])
 def test_salah_satu_lolos_tanpa_memandang_kapitalisasi(nilai: str) -> None:
-    """Memastikan pilihan diterima tanpa membedakan kapitalisasi."""
+    """Memastikan pilihan diterima tanpa membedakan kapitalisasi dan spasi tepi."""
     assert salah_satu(["merah", "biru", "hijau"])(nilai) == (True, "")
 
 
-@pytest.mark.parametrize("nilai", ["", "kuning", " biru "])
+@pytest.mark.parametrize("nilai", ["", "   ", "kuning", "bi ru"])
 def test_salah_satu_gagal(nilai: str) -> None:
     """Memastikan nilai yang tidak cocok dengan pilihan ditolak."""
     assert salah_satu(["merah", "biru"])(nilai)[0] is False

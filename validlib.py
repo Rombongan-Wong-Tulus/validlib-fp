@@ -2,6 +2,7 @@
 
 from datetime import datetime
 from typing import Callable, Mapping, Sequence
+import re
 
 
 HasilValidasi = tuple[bool, str]
@@ -15,13 +16,27 @@ def wajib_isi(nilai: str) -> HasilValidasi:
     return True, ""
 
 
+POLA_ANGKA = re.compile(
+    r"""
+    [0-9]+         # bagian bulat: satu digit atau lebih
+    (\.[0-9]+)?    # bagian pecahan: titik + digit, boleh tidak ada
+    """,
+    re.VERBOSE,
+)
+
 def hanya_angka(nilai: str) -> HasilValidasi:
-    """Memastikan teks dapat dikonversi menjadi angka."""
-    try:
-        float(nilai)
-    except (TypeError, ValueError):
+    if not POLA_ANGKA.fullmatch(nilai.strip()):
         return False, "Nilai harus berupa angka"
     return True, ""
+
+
+# def hanya_angka(nilai: str) -> HasilValidasi:
+#     """Memastikan teks dapat dikonversi menjadi angka."""
+#     try:
+#         float(nilai)
+#     except (TypeError, ValueError):
+#         return False, "Nilai harus berupa angka"
+#     return True, ""
 
 
 def rentang(minimum: int | float, maksimum: int | float) -> Validator:
@@ -58,7 +73,7 @@ def salah_satu(pilihan: Sequence[str]) -> Validator:
 
     def validasi(nilai: str) -> HasilValidasi:
         """Memastikan nilai cocok dengan salah satu pilihan."""
-        if nilai.casefold() not in pilihan_kecil:
+        if nilai.strip().casefold() not in pilihan_kecil:
             daftar = ", ".join(daftar_pilihan)
             return False, f"Nilai harus salah satu dari: {daftar}"
         return True, ""
