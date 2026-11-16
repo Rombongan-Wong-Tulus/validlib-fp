@@ -8,7 +8,7 @@ aturan = {
     "nama": semua(wajib_isi, panjang(3, 50)),
     "nim": semua(wajib_isi, hanya_angka),
     "jurusan": salah_satu(["Informatika", "Sipil", "Mesin", "Elektro"]),
-    "tgl_lahir": format_tanggal,
+    "tgl_lahir(YYYY-MM-DD)": format_tanggal,
 }
 
 
